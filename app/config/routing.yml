@@ -1,3 +1,8 @@
+blog:
+    resource: "@BlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 pages:
     resource: "@PagesBundle/Resources/config/routing.yml"
     prefix:   /
@@ -11,8 +16,16 @@ fos_user:
 
 categorieProduits:
   path:  /categorie/{categorie}
-  defaults: { _controller: AppBundle:Default:categorie }
+  defaults: { _controller: AppBundle:Default:produits }
 
 rechercheProduits:
-  path:  /recherche
+  path:  /recherches
   defaults: { _controller: AppBundle:Default:rechercheTraitement }
+
+supprimer:
+  path:  /supprimer/{id}
+  defaults: { _controller: AppBundle:Panier:supprimer }
+
+ajouter:
+  path:  /ajouter/{id}
+  defaults: { _controller: AppBundle:Panier:ajouter }

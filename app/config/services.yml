@@ -39,6 +39,21 @@ services:
     #     arguments:
     #         $someArgument: 'some_value'
 
+    tva:
+      class: AppBundle\Twig\extension\TvaExtension
+      tags:
+      - { name: twig.extension }
+
+    montantTva:
+      class: AppBundle\Twig\Extension\MontantTvaExtension
+      tags:
+      - { name: twig.extension }
+
+    redirectionListener:
+      class: AppBundle\Listener\RedirectionListener
+      arguments: ['@service_container','@session']
+      tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
 #    PagesBundle\DataFixtures\ORM\:
 #        resource: '../../src/Pages/PagesBundle/DataFixtures/ORM'
