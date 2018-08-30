@@ -3,54 +3,55 @@
 {% block body %}
 
     <div class="container">
-        <div class="row">
+        <div class="row"> <h2>Livraison</h2>
             <div class="span12">
-                <h2>Livraison</h2>
+                <div class="span3">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% include 'Module_include/userConnect.html.twig' %}
+                    {% else %}
+                        {% include 'Module_include/user.html.twig' %}
+                    {% endif %}
+                    {{   render(controller('AppBundle:Panier:menu')) }}
+                </div>
+
                 <div id="collapseOne" class="accordion-body collapse in">
                     <div class="accordion-inner">
                         <div class="span4">
-                            <form action="{{ path ('validation') }}">
+                            <form action="{{ path ('validation') }}" method="post">
+
                                 <h4>Adresse de livraison</h4>
+                                {% for adress in user.adresse %}
+
                                 <label class="radio">
-                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                    3b rue jules paulo, 75 000 Paris <a href="#"><i class="icon-trash"></i></a>
+                                    <input type="radio" name="livraison" value="{{  adress.id }}"  {% if loop.index0 == 0 %}checked="checked"{% endif %}>
+                                    {{  adress.adresse }}<a href="{{ path('livraisonAdresseSuppression', { 'id' : adress.id }) }}">&nbsp; &nbsp;<i class="icon-trash"></i></a>
+                                    <br>{{  adress.cp }}, {{  adress.ville }} - {{adress.pays }}
+                                    <br>{{  adress.prenom }} {{  adress.nom }}
                                 </label>
-                                <label class="radio">
-                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                    4b rue jules paulo, 75 000 Paris <a href="#"><i class="icon-trash"></i></a>
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                                    5b rue jules paulo, 75 000 Paris <a href="#"><i class="icon-trash"></i></a>
-                                </label>
+                                {% endfor %}
 
                                 <br /><br />
 
                                 <h4>Adresse de facturation</h4>
+                                {% for adress in user.adresse %}
                                 <label class="radio">
-                                    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked="">
-                                    3b rue jules paulo, 75 000 Paris <a href="#"><i class="icon-trash"></i></a>
+                                    <input type="radio" name="facturation" value="{{  adress.id }}"   {% if loop.index0 == 0 %}checked="checked"{% endif %}>
+                                    {{  adress.adresse }} &nbsp;<a href="#"><i class="icon-trash"></i></a>
                                 </label>
-                                <label class="radio">
-                                    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked="">
-                                    4b rue jules paulo, 75 000 Paris <a href="#"><i class="icon-trash"></i></a>
-                                </label>
-                                <label class="radio">
-                                    <input type="radio" name="optionsRadios2" id="optionsRadios1" value="option1" checked="">
-                                    5b rue jules paulo, 75 000 Paris <a href="#"><i class="icon-trash"></i></a>
-                                </label>
-                                <button class="btn btn-primary">Valider mon adresse de livraison</button>
+                                {% endfor %}
+                                <button class="btn btn-primary">Valider mes adresses</button>
+
                             </form>
                         </div>
 
 
-                        <div class="span4 offset2">
+                       <div class="span4">
                             <h4>Ajouter une nouvelle adresse</h4>
                             <form action="{{ path('livraison') }}" method="POST">
                                 {{ form_widget(form) }}
                                 <button class="btn btn-primary">Ajouter</button>
                             </form>
-                        </div>
+                       </div>
                     </div>
                 </div>
 

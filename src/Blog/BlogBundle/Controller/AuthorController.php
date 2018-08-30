@@ -2,6 +2,10 @@
 
 namespace Blog\BlogBundle\Controller;
 
+use Blog\BlogBundle\Entity\Article;
+use Blog\BlogBundle\Entity\Comment;
+use Blog\BlogBundle\Form\ArticleType;
+use Blog\BlogBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,16 +26,16 @@ class AuthorController extends Controller
     }
 
     /**
-     * @Route("/new")
+     * @Route("/new-article")
      * @Route("/update/{id}", name="update")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
+     *///$articles = null
     public function addEditArticleAction(Request $request, Article $articles = null)
     {
         if($articles == null) {
             $articles = new Article();
             $author = $this->getDoctrine()
-                ->getRepository("AppBundle:Author")
+                ->getRepository("BlogBundle:Author")
                 ->findOneByEmail("user1@mail.com");
 
             $articles->setAuthor($author);
@@ -43,11 +47,11 @@ class AuthorController extends Controller
         {
             $em = $this->getDoctrine()->getManager();
             $em->persist($articles);
-            $em->flush();
+            $em->flush();//blogbundle_default_index
 
-            return $this->redirectToRoute("app_article_index");
+            return $this->redirectToRoute("blog");
         }
-        return $this->render('Article/new.html.twig', array('form' => $form->createView()));
+        return $this->render('BlogBundle:Article:new.html.twig', array('form' => $form->createView()));
 
     }
 }

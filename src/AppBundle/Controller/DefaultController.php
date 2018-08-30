@@ -63,11 +63,11 @@ class DefaultController extends Controller
         $produits = $em->getRepository('AppBundle:produits')->byCategorie($categorie);
 
         $categorie = $em->getRepository('AppBundle:categorie')->find($categorie);
-        if(!$categorie) throw $this->createNotFoundException("!!!!LA PAGE N'EXISTE PAS");
+        if(!isset($categorie)) throw $this->createNotFoundException("!!!!LA PAGE N'EXISTE PAS");
 
         return $this->render('produits/layout/produits.html.twig', array('produits' =>$produits));
-    } */
-
+    }
+*/
 
     /**
      * @Route("/recherche")
@@ -81,41 +81,22 @@ class DefaultController extends Controller
 
     public function rechercheTraitementAction(Request $request)
     {
-        //$pseudo = filter_input(INPUT_POST, "form[recherche]");
-       // $form = $this->createFormBuilder()->add('recherche')->getForm();
-        //if(isset($_POST)){
-           //$this->get('request_stack')->getCurrentRequest() == 'post'
-           // $form->bind($this->get('request_stack'));
-            /*echo $form['recherche']->getData();
-
-        }
-        die();
-        $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository('AppBundle:produits')->recherche();
-
-        return $this->render('produits/layout/presentation.html.twig', array('produit' =>$produit));*/
-
-
         $form = $this->createFormBuilder()->add('recherche')->getForm();
-
 
         if (isset($_POST)) {
 
-            //$request = filter_input(INPUT_POST, "form[recherche]");
-            //$form->isSubmitted() && $form->isValid()
             $form->handleRequest($request);
-             //$form['recherche']->getData();
-            //$data = $form["recherche"]->getData();
-            //$data = $request->request->get('form');
             //var_dump($data);
-            echo $form['recherche']->getData();
-
+            //echo
+            $em = $this->getDoctrine()->getManager();
+            $produits = $em->getRepository('AppBundle:produits')->recherche($form['recherche']->getData());
            //
+        } else {
+            throw $this->createNotFoundException("La page n'existe pas");
         }
-        die();
-        $em = $this->getDoctrine()->getManager();
-        $produit = $em->getRepository('AppBundle:Produits')->recherche();
-        return $this->render('produits/layout/produits.html.twig', array('produit' => $produit));
+        //die();
+
+        return $this->render('produits/layout/produits.html.twig', array('produits' => $produits));
 
 
     }

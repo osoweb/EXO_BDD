@@ -55,7 +55,7 @@ class PanierController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppBundle:UserAdress')->find($id);
 
-        if ($this->container->get('security.context')->getToken()->getUser() != $entity->getUtilisateur() || !$entity)
+        if (!isset($entity))
             return $this->redirect ($this->generateUrl ('livraison'));
 
         $em->remove($entity);
@@ -70,14 +70,15 @@ class PanierController extends Controller
      */
     public function livraisonAction(Request $request)
     {
+        $user = $this->getUser();
         //$user = new user();$this->container->get('securityContext')->getToken()->getUser();
         $entity = new userAdress();
         $form = $this->createForm(userAdressType::class, $entity);
 
 
-       /* if ($this->get('request')->getMethod() == 'POST')
+       /* */if (isset($_POST))
         {
-            $form->handleRequest($this->getRequest());
+            $form->handleRequest($request);
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $entity->setUser($user);
@@ -86,9 +87,28 @@ class PanierController extends Controller
 
                 return $this->redirect($this->generateUrl('livraison'));
             }
-        }*/
+        }
 
-        return $this->render('panier/layout/livraison.html.twig', array('form' => $form->createView()));
+        return $this->render('panier/layout/livraison.html.twig', array('user' => $user, 'form' => $form->createView()));
+    }
+
+    public function setLivraisonOnSession (Request $request)
+    {
+        $session = $this->get('session');
+
+        if(!$session->has('adresse'))  $session->set('adresse', array());
+        $adresse = $session->get('adresse');
+
+        if ($_POST['livraison'] != null && $_POST['facturation'] != null)
+        {
+            $adresse['livraison'] = $_POST['livraison'] ;
+            $adresse['facturation'] = $_POST['facturation'];
+        } else {
+            return $this->redirect($this->generateUrl('validation'));
+        }
+
+        $session->set('adresse',$adresse);
+        return $this->redirect($this->generateUrl('validation'));
     }
 
     /**
@@ -96,10 +116,21 @@ class PanierController extends Controller
      */
     public function valideAction(Request $request)
     {
+        if (isset($_POST))
+            $this->setLivraisonOnSession($request);
 
-        return $this->render('panier/layout/validation.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->get('session');
+        $adresse = $this->get('session')->get('adresse');
+
+        $produits = $em->getRepository('AppBundle:produits')->findArray(array_keys($session->get('panier')));
+        $livraison = $em->getRepository('AppBundle:userAdress')->find($adresse['livraison']);
+        $facturation = $em->getRepository('AppBundle:userAdress')->find($adresse['facturation']);
+
+        return $this->render('panier/layout/validation.html.twig',  array('produits' => $produits,
+            'livraison' => $livraison,
+            'facturation' => $facturation,
+            'panier' => $session->get('panier')));
     }
 
     public function supprimerAction($id)

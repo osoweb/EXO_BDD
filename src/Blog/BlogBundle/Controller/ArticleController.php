@@ -2,6 +2,10 @@
 
 namespace Blog\BlogBundle\Controller;
 
+use Blog\BlogBundle\Entity\Article;
+use Blog\BlogBundle\Entity\Comment;
+use Blog\BlogBundle\Form\ArticleType;
+use Blog\BlogBundle\Form\CommentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,14 +19,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/list")
+     * @Route("/list", name="blog")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $articles = $this->getDoctrine()
-            ->getRepository('AppBundle:Article')
+            ->getRepository('BlogBundle:Article')
             ->findAll();
-        return $this->render('Article/index.html.twig', ['articles' => $articles]);
+
+        $reservations  = $this->get('knp_paginator')->paginate(
+            $articles,
+            $request->query->get('page', 1)/*le numéro de la page à afficher*/,
+            6/*nbre d'éléments par page*/
+        );
+        return $this->render('BlogBundle:Article:index.html.twig', ['articles' => $reservations]);
     }
 
 
@@ -30,9 +40,9 @@ class ArticleController extends Controller
 
 
     /**
-     * @Route("/show/{id}")
+     * @Route("/show/{id}", name="details")
      */
-    public function detailsAction(Article $article, Request $request)
+    public function detailsAction( Article $article = null, Request $request)
     {
         //Instanciation d' une entité commentaire
         $comment = new Comment();
@@ -50,10 +60,10 @@ class ArticleController extends Controller
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirectToRoute("app_article_details", ["id"=>$article->getId()]);
+            return $this->redirectToRoute("details", ["id"=>$article->getId()]);
         }
 
-        return $this->render('Article/details.html.twig', [
+        return $this->render('BlogBundle:Article:details.html.twig', [
             'article'=>$article,
             'commentForm'=>$form->createView()
         ]);

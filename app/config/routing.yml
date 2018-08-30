@@ -28,3 +28,13 @@ supprimer:
 ajouter:
   path:  /ajouter/{id}
   defaults: { _controller: AppBundle:Panier:ajouter }
+
+admin_login_check:
+  path: /admin/login-check
+
+author_login_check:
+  path: /author/login-check
+
+livraisonAdresseSuppression:
+  path:  /livraison/adresse/suppression/{id}
+  defaults: { _controller: AppBundle:Panier:adresseSuppression }

@@ -84,6 +84,57 @@ class produitsData extends AbstractFixture implements OrderedFixtureInterface
         $produit6->setTva($this->getReference('tva2'));
         $manager->persist($produit6);
 
+        $produit7 = new produits();
+        $produit7->setCategorie($this->getReference('categorie3'));
+        $produit7->setDescription("La viande  de différentes espèces de la famille des Rutacées ou d'hybrides de ceux-ci.");
+        $produit7->setDisponible('1');
+        $produit7->setImage($this->getReference('media9'));
+        $produit7->setNom('Steack');
+        $produit7->setPrix('1.20');
+        $produit7->setTva($this->getReference('tva2'));
+        $manager->persist($produit7);
+
+        $produit8 = new produits();
+        $produit8->setCategorie($this->getReference('categorie4'));
+        $produit8->setDescription("Le poisson, des arbres de différentes espèces de la famille des Rutacées ou d'hybrides de ceux-ci.");
+        $produit8->setDisponible('1');
+        $produit8->setImage($this->getReference('media10'));
+        $produit8->setNom('Poisson braisé');
+        $produit8->setPrix('1.20');
+        $produit8->setTva($this->getReference('tva2'));
+        $manager->persist($produit8);
+
+        $produit9 = new produits();
+        $produit9->setCategorie($this->getReference('categorie5'));
+        $produit9->setDescription("Le Féculent n' est pas un agrume, fruit des orangers, des arbres de différentes espèces de la famille des Rutacées ou d'hybrides de ceux-ci.");
+        $produit9->setDisponible('1');
+        $produit9->setImage($this->getReference('media11'));
+        $produit9->setNom('Riz aux féculents');
+        $produit9->setPrix('1.20');
+        $produit9->setTva($this->getReference('tva2'));
+        $manager->persist($produit9);
+
+        $produit10 = new produits();
+        $produit10->setCategorie($this->getReference('categorie6'));
+        $produit10->setDescription("Le fromage est un agrume, fruit des orangers, des arbres de différentes espèces de la famille des Rutacées ou d'hybrides de ceux-ci.");
+        $produit10->setDisponible('1');
+        $produit10->setImage($this->getReference('media12'));
+        $produit10->setNom('Fromages de France');
+        $produit10->setPrix('1.20');
+        $produit10->setTva($this->getReference('tva2'));
+        $manager->persist($produit10);
+
+        $produit11 = new produits();
+        $produit11->setCategorie($this->getReference('categorie7'));
+        $produit11->setDescription("Le chocolat est un agrume, fruit des orangers, des arbres de différentes espèces de la famille des Rutacées ou d'hybrides de ceux-ci.");
+        $produit11->setDisponible('1');
+        $produit11->setImage($this->getReference('media13'));
+        $produit11->setNom('Chocolat');
+        $produit11->setPrix('1.20');
+        $produit11->setTva($this->getReference('tva2'));
+        $manager->persist($produit11);
+
+
         $manager->flush();
     }
 

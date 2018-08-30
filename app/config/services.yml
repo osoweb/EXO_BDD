@@ -38,6 +38,9 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    Blog\BlogBundle\DataFixtures\ORM\:
+      resource: '../../src/Blog/BlogBundle/DataFixtures/ORM'
+      tags: ['doctrine.fixture.orm']
 
     tva:
       class: AppBundle\Twig\extension\TvaExtension

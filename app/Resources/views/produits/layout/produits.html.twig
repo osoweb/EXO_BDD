@@ -5,7 +5,6 @@
         <div class="row">
             <div class="span3">
             {% include 'Module_include/navigation.html.twig' %}
-
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% include 'Module_include/userConnect.html.twig' %}
                 {% else %}
@@ -14,11 +13,12 @@
                 {{   render(controller('AppBundle:Panier:menu')) }}
             </div>
                 <div class="span9">
+                    {% if produits|length != 0 %}
                 <ul class="thumbnails">
                     {%  for produit in produits %}
                     <li class="span3">
                         <div class="thumbnail">
-                            <img src="{{  asset('img/holder.png')}}" alt="DevAndClick" width="300" height="300">
+                            <img src="{{  asset('img/holder.png')}}" alt="Odelices" width="300" height="300">
                             <div class="caption">
                                 <h4>{{ produit.nom }}</h4>
                                 <p>{{ produit.prix|tva(produit.tva.multiplicate) }}€</p>
@@ -44,7 +44,9 @@
                         <li><a href="#">Suivant</a></li>
                     </ul>
                 </div>
-
+                    {% else %}
+                        Aucun produit !!!
+                    {% endif %}
             </div>
         </div>
     </div>
