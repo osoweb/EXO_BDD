@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\AppBundle;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,16 +42,17 @@ class produits
     private $tva;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=45)
+     *@var string
+     *
+     * @ORM\Column(name="nom", type="string", length=65)
      */
     private $nom;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=245)
+     * @ORM\Column(name="description", type="text")
      */
     private $description;
 

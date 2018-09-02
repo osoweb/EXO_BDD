@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,40 +23,71 @@ class Recette
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="titre", type="string", length=20)
+     *@ORM\OneToOne(targetEntity="Pages\PagesBundle\Entity\page",cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $titre;
 
+    /*public function __construct()
+    {
+        parent::__construct();
+        $this->produits = new \Doctrine\Common\Collections\ArrayCollection();
+
+    }*/
+
     /**
+     *
      * @var string
      *
-     * @ORM\Column(name="produits", type="string", length=255)
+     * @ORM\Column(name="produits", type="string", nullable=true)
      */
     private $produits;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="preparation", type="string", length=255)
+     *@ORM\OneToOne(targetEntity="Pages\PagesBundle\Entity\page",cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $preparation;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="path", type="string", length=255)
+     *@ORM\OneToOne(targetEntity="AppBundle\Entity\Media",cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $path;
+    private $image;
 
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="temps", type="date")
+     * @ORM\Column(name="temps", type="string")
      */
     private $temps;
+
+    /**
+     * Add produit
+     *
+     * @param \AppBundle\Entity\produits $produit
+     *
+     * @return nom
+
+    public function addProduit(\AppBundle\Entity\produits $produit)
+    {
+        $this->produits[] = $produit;
+
+        return $this;
+    } */
+
+    /**
+     * Remove produit
+     *
+     * @param \AppBundle\Entity\produits $produit
+    public function removeProduit(\AppBundle\Entity\produits $produit)
+    {
+        $this->produits->removeElement($produit);
+    }*/
 
 
     /**
@@ -90,6 +122,22 @@ class Recette
     public function getTitre()
     {
         return $this->titre;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 
     /**
@@ -140,45 +188,25 @@ class Recette
         return $this->preparation;
     }
 
-
     /**
      * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-
-    /**
-     * Set temps
-     *
-     * @param \DateTime $temps
-     *
-     * @return Recette
-     */
-    public function setTemps($temps)
-    {
-        $this->temps = $temps;
-
-        return $this;
-    }
-
-    /**
-     * Get temps
-     *
-     * @return \DateTime
      */
     public function getTemps()
     {
         return $this->temps;
     }
+
+    /**
+     * @param string $temps
+     */
+    public function setTemps($temps)
+    {
+        $this->temps = $temps;
+    }
+
+
+
+
+
 }
 

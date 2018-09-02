@@ -38,8 +38,14 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    #Chemin pour les datas de la BDD du bundle Pages
     Blog\BlogBundle\DataFixtures\ORM\:
       resource: '../../src/Blog/BlogBundle/DataFixtures/ORM'
+      tags: ['doctrine.fixture.orm']
+
+    #Chemin pour les datas de la BDD du bundle Pages
+    Pages\PagesBundle\DataFixtures\ORM\:
+      resource: '../../src/Pages/PagesBundle/DataFixtures/ORM'
       tags: ['doctrine.fixture.orm']
 
     tva:

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+
+        <div class="span12">
+
+                <ul class="thumbnails">
+                    {% for recettes in recette  %}
+                        <li class="span3">
+                            <div class="thumbnail">
+                                <img src="{{ recettes.image.path }}" alt="Odelices" width="300" height="300">
+                                <div class="caption">
+                                    <p>RECETTE</p>
+                                    <a href="{{ path('page', { 'id' : recettes.titre.id }) }}" ><h5>{{ recettes.titre.titre }}</h5></a>
+
+                                    <!--  <a class="btn btn-primary" href="#"></a>
+
+                                        Plus d'infos<a style="float: right" class="btn btn-success" href="#">Imprimer la recette</a>-->
+
+                                </div>
+                            </div>
+                        </li>
+                    {%  endfor %}
+                    <!--  asset('img/holder.png')-->
+                </ul>
+
+                <div style="text-align: center" class="pagination">
+                    <ul>
+                        <li class="disabled"><span>Précédent</span></li>
+                        <li class="disabled"><span>1</span></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">Suivant</a></li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+    </div>
+</div>
+{% endblock  %}

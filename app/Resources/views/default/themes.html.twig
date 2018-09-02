@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+
+        <div class="span12">
+
+                <ul class="thumbnails">
+                    {% for theme in themes  %}
+                        <li class="span4">
+
+
+                                <div class="caption">
+                                    <p>Pays & Regions</p>
+                                    <a href="{{ path('page', { 'id' : 1 }) }} " ><h5>{{ theme.paysregion }}</h5></a><br>
+
+                                    <!--{##}   <a class="btn btn-primary" href="#"></a>
+
+                                        Plus d'infos<a style="float: right" class="btn btn-success" href="#">Imprimer la recette</a>-->
+
+                                </div>
+
+                        </li>
+                        <li class="span4">
+                            <div class="thumbnail">
+                                <img src="#" alt="Odelices" width="300" height="300">
+                                <div class="caption">
+                                    <p>Fêtes</p>
+                                    <a href="{{ path('page', { 'id' : 1 }) }}" ><h5>{{ theme.fetes }}</h5></a><br>
+
+                                    <!--{##} path('page', { 'id' : recettes.titre.id }) }}  <a class="btn btn-primary" href="#"></a>
+
+                                        Plus d'infos<a style="float: right" class="btn btn-success" href="#">Imprimer la recette</a>-->
+
+                                </div>
+                            </div>
+                        </li>
+                        <li class="span4">
+                            <div class="thumbnail">
+                                <img src="#" alt="Odelices" width="300" height="300">
+                                <div class="caption">
+                                    <p>Tendances</p>
+                                    <a href="{{ path('page', { 'id' : 1 }) }}" ><h5>{{ theme.tendances }}</h5></a><br>
+
+                                    <!--{##} path('page', { 'id' : recettes.titre.id }) }}  <a class="btn btn-primary" href="#"></a>
+
+                                        Plus d'infos<a style="float: right" class="btn btn-success" href="#">Imprimer la recette</a>-->
+
+                                </div>
+                            </div>
+                        </li>
+                    {%  endfor %}
+                    <!--  asset('img/holder.png')-->
+                </ul>
+
+        </div>
+
+
+
+    </div>
+</div>
+{% endblock  %}

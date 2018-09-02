@@ -12,13 +12,18 @@ class page
      */
     private $id;
 
+
     /**
      * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=65)
      */
     private $titre;
 
     /**
-     * @var string
+     *@var string
+     *
+     * @ORM\Column(name="contenu", type="text", nullable=false)
      */
     private $contenu;
 
@@ -31,6 +36,14 @@ class page
     public function getId()
     {
         return $this->id;
+    }
+
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**

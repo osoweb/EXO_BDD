@@ -11,9 +11,10 @@ use AppBundle\Form\rechercheType;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     *
+     * @Route("/boutique", name="boutique")
      */
-    public function produitsAction(Categorie $categorie = null)
+    public function produitsAction(Request $request,Categorie $categorie = null)
     {
 
         //var_dump($categorie);die();
@@ -31,7 +32,13 @@ class DefaultController extends Controller
         else
             $panier = false;
 
-        return $this->render('produits/layout/produits.html.twig', array('produits' =>$produits,'panier' =>$panier));
+
+        $pagination  = $this->get('knp_paginator')->paginate(
+            $produits,
+            $request->query->get('page', 1)/*le numéro de la page à afficher*/,
+            6/*nbre d'éléments par page*/);
+
+        return $this->render('produits/layout/produits.html.twig', array('produits' =>$pagination,'panier' =>$panier));
     }
 
     /**
@@ -54,20 +61,53 @@ class DefaultController extends Controller
     }
 
     /**
-     *
-
-    public function categorieAction($categorie)
+     *@Route("/recette", name="recette")
+     *  @Route("/", name="homepage")
+     */
+    public function recetteAction()
     {
 
         $em = $this->getDoctrine()->getManager();
-        $produits = $em->getRepository('AppBundle:produits')->byCategorie($categorie);
+        $recette = $em->getRepository('AppBundle:Recette')->findAll();
 
-        $categorie = $em->getRepository('AppBundle:categorie')->find($categorie);
-        if(!isset($categorie)) throw $this->createNotFoundException("!!!!LA PAGE N'EXISTE PAS");
 
-        return $this->render('produits/layout/produits.html.twig', array('produits' =>$produits));
+        return $this->render('default/recette.html.twig', array('recette' =>$recette));
     }
-*/
+
+    /**
+     *
+     *  @Route("/themes", name="themes")
+     */
+    public function themeAction()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $themes = $em->getRepository('AppBundle:Themes')->findAll();
+
+
+        return $this->render('default/themes.html.twig', array('themes' =>$themes));
+    }
+
+    /**
+     *
+     *  @Route("/ingredient", name="ingredient")
+     */
+    public function ingredientAction(Request $request)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $produits = $em->getRepository('AppBundle:produits')->findAll();
+
+        $pagination  = $this->get('knp_paginator')->paginate(
+            $produits,
+            $request->query->get('page', 1)/*le numéro de la page à afficher*/,
+            8/*nbre d'éléments par page*/);
+
+
+        return $this->render('produits/layout/ingredient.html.twig', array('produits' =>$pagination));
+    }
+
+
 
     /**
      * @Route("/recherche")
